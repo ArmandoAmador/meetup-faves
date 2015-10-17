@@ -1,1 +1,40 @@
-<h1>Test</h1>
+<div class="doc-box">
+  <div class="doc-content">
+    <h1>Meetup Faves</h1>
+  </div>
+
+  <div class="doc-content">
+    <div class="margin-top">
+      <form id="event-search">
+        <input type="text" class="span-50 inline-block margin-right" id="topic" value="python" />
+        <button class="button primary" id="search-button">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="doc-box">
+  <div class="doc-content" id="events"></div>
+</div>
+
+<script id="meetup-template" type="text/template">
+  <ul class="dividedList eventsList">
+    {{#results}}
+      <li>
+        <div class="figureset">
+          <div class="figureset-figure">
+            <time class="tearsheet--big">
+              <span class="month">{{month}}</span>
+              <span class="day">{{date}}</span>
+            </time>
+          </div>
+          <div class="figureset-description">
+            <h3><a href="{{event_url}}">{{name}}</a></h3>
+            <div class="muted">{{group.name}}</div>
+            <div class="yes">{{yes_rsvp_count}} {{group.who}} Going</div>
+          </div>
+        </div>
+      </li>
+    {{/results}}
+  </ul>
+</script>

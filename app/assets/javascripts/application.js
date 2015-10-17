@@ -12,4 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require mustache/mustache.min.js
+//= require spin.min.js
+//= require app.js
 //= require_tree .
+

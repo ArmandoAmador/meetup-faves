@@ -1,13 +1,7 @@
 {
   "name": "dsl-generated dependencies",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
   "dependencies": {
-    "sassquatch": "latest"
+    "sassquatch": "latest",
+    "mustache": "latest"
   }
 }
