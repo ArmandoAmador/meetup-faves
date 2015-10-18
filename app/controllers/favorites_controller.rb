@@ -24,7 +24,7 @@ class FavoritesController < ApplicationController
 
   def favorite_params
     params.require(:favorite).permit(
-      :month, :date, :name, :group_name, :yes_rsvp_count, :who, :meetup_id, :event_url
+      :meetup_id
     )
   end
 end

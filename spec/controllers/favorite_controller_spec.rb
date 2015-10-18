@@ -13,12 +13,7 @@ RSpec.describe FavoritesController, type: :controller do
     context 'when is not created' do
       before(:each) do
         @favorite_attributes = {
-          month: 'May',
-          date: 10,
-          name: 'Est vel ut accusantium repellendus.',
-          group_name: 'Rerum maiores omnis quos minus vel facilis culpa.',
-          yes_rsvp_count: 70,
-          who: 'Et quod et voluptatem sit unde est.'
+          meetup_id: ''
         }
         post :create, favorite: @favorite_attributes, format: :json
       end
@@ -46,7 +41,7 @@ RSpec.describe FavoritesController, type: :controller do
 
       it 'renders the json response for the favorite record just created' do
         favorite_response = json_response[:favorite]
-        expect(favorite_response[:name]).to eql @favorite_attributes[:name]
+        expect(favorite_response[:id]).to eql(@favorite_attributes[:meetup_id])
       end
 
       it { is_expected.to respond_with 201 }
