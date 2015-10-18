@@ -18,8 +18,7 @@ RSpec.describe FavoritesController, type: :controller do
           name: 'Est vel ut accusantium repellendus.',
           group_name: 'Rerum maiores omnis quos minus vel facilis culpa.',
           yes_rsvp_count: 70,
-          who: 'Et quod et voluptatem sit unde est.',
-          status: false
+          who: 'Et quod et voluptatem sit unde est.'
         }
         post :create, favorite: @favorite_attributes, format: :json
       end
@@ -31,8 +30,8 @@ RSpec.describe FavoritesController, type: :controller do
 
       it 'renders the json errors on why the favorite creation was unsuccessful' do
         favorite_response = json_response
-        expect(favorite_response[:errors][:status]).to include(
-          'Status must be true to favorite meetup'
+        expect(favorite_response[:errors][:meetup_id]).to include(
+          "can't be blank"
         )
       end
 
@@ -46,8 +45,8 @@ RSpec.describe FavoritesController, type: :controller do
       end
 
       it 'renders the json response for the favorite record just created' do
-        favorite_response = json_response
-        expect(favorite_response[:name]).to eql @favorite_attributes[:name]
+        favorite_response = json_response[:favorite]
+        expect(favorite_response[:results][:name]).to eql @favorite_attributes[:name]
       end
 
       it { is_expected.to respond_with 201 }

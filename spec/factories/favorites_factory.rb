@@ -6,6 +6,7 @@ FactoryGirl.define do
     group_name  { FFaker::Lorem.sentence }
     yes_rsvp_count { rand(1..100) }
     who { FFaker::Lorem.sentence }
-    status true
+    event_url { FFaker::InternetSE.http_url }
+    meetup_id { FFaker::Identification.ssn }
   end
 end

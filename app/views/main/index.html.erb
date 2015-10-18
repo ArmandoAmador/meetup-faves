@@ -8,6 +8,7 @@
       <form id="event-search">
         <input type="text" class="span-50 inline-block margin-right" id="topic" value="python" />
         <button class="button primary" id="search-button">Search</button>
+        <button class="button primary" id="get-favorites-button">Favorites</button>
       </form>
     </div>
   </div>
@@ -20,7 +21,7 @@
 <script id="meetup-template" type="text/template">
   <ul class="dividedList eventsList">
     {{#results}}
-      <li>
+      <li data-id='{{id}}' data-month='{{month}}' data-date='{{date}}' data-event-url='{{event_url}}' data-name='{{name}}' data-group-name='{{group.name}}' data-yes-rsvp-count='{{yes_rsvp_count}}' data-group-who='{{group.who}}' >
         <div class="figureset">
           <div class="figureset-figure">
             <time class="tearsheet--big">
@@ -32,6 +33,7 @@
             <h3><a href="{{event_url}}">{{name}}</a></h3>
             <div class="muted">{{group.name}}</div>
             <div class="yes">{{yes_rsvp_count}} {{group.who}} Going</div>
+            <button class="item-add button primary" data-action="favorite-add">favorite"</button>
           </div>
         </div>
       </li>

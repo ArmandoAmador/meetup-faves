@@ -17,15 +17,16 @@ ActiveRecord::Schema.define(version: 20151017173750) do
   enable_extension "plpgsql"
 
   create_table "favorites", force: :cascade do |t|
-    t.string   "month",                          null: false
-    t.integer  "date",                           null: false
-    t.string   "name",                           null: false
-    t.string   "group_name",                     null: false
-    t.integer  "yes_rsvp_count",                 null: false
-    t.string   "who",                            null: false
-    t.boolean  "status",         default: false, null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "month",          null: false
+    t.integer  "date",           null: false
+    t.string   "name",           null: false
+    t.string   "group_name",     null: false
+    t.string   "event_url",      null: false
+    t.integer  "yes_rsvp_count", null: false
+    t.string   "who",            null: false
+    t.string   "meetup_id",      null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
 end

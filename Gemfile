@@ -11,7 +11,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders', '~> 2.0'
-gem "bower-rails", "~> 0.10.0"
+gem 'bower-rails', '~> 0.10.0'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'byebug'

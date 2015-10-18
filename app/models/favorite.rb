@@ -1,7 +1,7 @@
 class Favorite < ActiveRecord::Base
   validates(
     :month, :date, :name, :group_name,
-    :yes_rsvp_count, :who,
+    :yes_rsvp_count, :who, :event_url, :meetup_id,
     presence: true
   )
 
@@ -18,5 +18,7 @@ class Favorite < ActiveRecord::Base
 
   validates_numericality_of :yes_rsvp_count, only_integer: true
 
-  validates :status, acceptance: { accept: true, message: 'Status must be true to favorite meetup' }
+  def to_param
+    meetup_id
+  end
 end

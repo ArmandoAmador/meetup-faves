@@ -31,23 +31,35 @@
 
   };
 
-  var renderEvents = function(data) {
+  var getFavorites = function(e) {
+    if (e !== undefined) {
+      e.preventDefault();
+    }
 
+    new Spinner(spinner_opts).spin($events[0]);
+
+    $.ajax({
+      url:"http://localhost:3000/favorites",
+      dataType:"json",
+      success: renderEvents,
+      error: ajaxError
+    });
+  }
+
+  var renderEvents = function(data) {
     //console.dir(data);
 
     //Make sure there are events and that there isn't an error.
     if (typeof(data.results) !== "undefined" && data.meta.count > 0) {
 
       for(var i=0, len=data.results.length; i<len; i++) {
-
-        var e    = data.results[i],
-          date = new Date(e.time);
-
-        e.month = months[date.getMonth()]
-        e.date =  date.getDate();
-
+        if (data.results[i].date === undefined) {
+          var e = data.results[i];
+          var date = new Date(e.time);
+          e.month = months[date.getMonth()]
+          e.date =  date.getDate();
+        }
       }
-
       $events.html(Mustache.render(template, data));
 
     } else {
@@ -64,13 +76,47 @@
 
   };
 
+  var addFavorite = function(e) {
+    e.preventDefault();
+    var url = "http://localhost:3000/favorites"
+
+    var id = $(this).closest("li").data('id')
+    var month = $(this).closest("li").data('month')
+    var date = $(this).closest("li").data('date')
+    var eventUrl = $(this).closest("li").data('event-url')
+    var name = $(this).closest("li").data('name')
+    var groupName = $(this).closest("li").data('group-name')
+    var yesRsvpCount = $(this).closest("li").data('yes-rsvp-count')
+    var groupWho = $(this).closest("li").data('groupWho')
+    var status = 1
+
+    var itemJson = {
+      favorite: {
+        meetup_id: id,
+        month: month,
+        date: date,
+        event_url: eventUrl,
+        name: name,
+        group_name: groupName,
+        yes_rsvp_count: yesRsvpCount,
+        who: groupWho,
+        status: 1
+      }
+    }
+
+    $.post(url, itemJson);
+  };
+
   var init = function() {
 
     template = $("#meetup-template").html();
     $events = $("#events");
     $topic = $("#topic");
+    $events.on('click', 'button[data-action=favorite-add]', addFavorite);
 
     $("#search-button").on("click", getEvents);
+    $("#get-favorites-button").on("click", getFavorites);
+
     getEvents();
 
   };

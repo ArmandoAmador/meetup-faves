@@ -2,7 +2,8 @@ class FavoritesController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(@favorites = Favorite.all)
+    @favorites = Favorite.all
+    render json: @favorites, root: :results, meta: { count: @favorites.count }
   end
 
   def create
@@ -15,7 +16,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    Favorite.find(params[:id]).destroy
+    Favorite.find_by(meetup_id: params[:id]).destroy
     head 204
   end
 
@@ -23,7 +24,7 @@ class FavoritesController < ApplicationController
 
   def favorite_params
     params.require(:favorite).permit(
-      :month, :date, :name, :group_name, :yes_rsvp_count, :who, :status
+      :month, :date, :name, :group_name, :yes_rsvp_count, :who, :meetup_id, :event_url
     )
   end
 end
