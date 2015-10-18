@@ -74,20 +74,31 @@
   };
 
   var renderEvents = function(events, favorites) {
-    // var favorited = {};
-    // favorites.forEach(function(favorite){
-    //   favorited[favorite.id] = true;
-    // })
+    var id_exist = function(data, id) {
+      var stuff
+      data.results.forEach(function(result){
+        if (result.id === id) {
+          stuff = true
+          return stuff;
+        }
+      });
+      return stuff;
+    };
+
+    var result;
 
     if (typeof(events.results) !== "undefined" && events.meta.count > 0) {
 
       for(var i=0, len=events.results.length; i<len; i++) {
-        if (events.results[i].date === undefined) {
-          var e = events.results[i];
-          var date = new Date(e.time);
-          e.month = months[date.getMonth()]
-          e.date =  date.getDate();
-        }
+        var e = events.results[i];
+        var date = new Date(e.time);
+        e.month = months[date.getMonth()]
+        e.date =  date.getDate();
+        result = id_exist(favorites, e.id);
+        if (result === true)
+          e.button = "favorite-remove"
+        else
+          e.button = "favorite-add"
       }
       $events.html(Mustache.render(template, events));
 
@@ -121,7 +132,14 @@
 
   var removeFavorite = function(e) {
     e.preventDefault();
-    console.log("Remove");
+    var url = "http://localhost:3000/favorites"
+    var id = $(this).closest('li').data('id');
+    $.ajax({
+        url: 'http://localhost:3000/favorites/' + id,
+        type: 'DELETE',
+    }).then(function(events){
+          renderEvents(events, favorites);
+    }, ajaxError);
   }
 
   var init = function() {
