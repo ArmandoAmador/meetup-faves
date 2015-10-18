@@ -46,7 +46,7 @@ RSpec.describe FavoritesController, type: :controller do
 
       it 'renders the json response for the favorite record just created' do
         favorite_response = json_response[:favorite]
-        expect(favorite_response[:results][:name]).to eql @favorite_attributes[:name]
+        expect(favorite_response[:name]).to eql @favorite_attributes[:name]
       end
 
       it { is_expected.to respond_with 201 }

@@ -29,4 +29,6 @@ ActiveRecord::Schema.define(version: 20151017173750) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "favorites", ["meetup_id"], name: "index_favorites_on_meetup_id", unique: true, using: :btree
+
 end

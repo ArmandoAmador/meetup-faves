@@ -22,6 +22,8 @@ RSpec.describe Favorite, type: :model do
   it { is_expected.to validate_presence_of(:who) }
   it { is_expected.to validate_presence_of(:event_url) }
 
+  it { is_expected.to validate_uniqueness_of(:meetup_id) }
+
   it { is_expected.to validate_inclusion_of(:month).in_array(Date::ABBR_MONTHNAMES.compact) }
 
   it { is_expected.to validate_numericality_of(:date).only_integer }

@@ -5,6 +5,8 @@ class Favorite < ActiveRecord::Base
     presence: true
   )
 
+  validates :meetup_id, uniqueness: true
+
   validates :month, inclusion: {
     in: Date::ABBR_MONTHNAMES.compact,
     message: '%{value} is not a valid month'

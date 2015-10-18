@@ -11,5 +11,6 @@ class CreateFavorites < ActiveRecord::Migration
       t.string :meetup_id, null: false
       t.timestamps null: false
     end
+    add_index :favorites, :meetup_id, unique: true
   end
 end
