@@ -8,6 +8,18 @@ Description
 
 The goal of this project was to use Meetup API to show upcoming meetups and a way to persist your favorites on a external datastore
 
+Getting Started
+---
+
+- `git clone git@github.com:ArmandoAmador/meetup-faves.git`
+- `cd meetup-fave`
+- `bundle install`
+- `rake db:create`
+- `rake db:migrate`
+- `rake bower:install`
+- `rails s`
+
+
 Features
 ---
 
@@ -16,7 +28,7 @@ Features
 - saves favorite meetups by clicking on favorite-star icon
 
 
-'Stack'
+Stack
 ---
 - [events](http://www.meetup.com/meetup_api/docs/2/open_events/) Meetup API's open events api
 - [sassquatch](http://meetup.github.io/sassquatch/) Meetup's locally-grown CSS framework
