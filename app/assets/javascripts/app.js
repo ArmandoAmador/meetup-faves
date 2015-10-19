@@ -75,7 +75,6 @@
   };
 
   function renderEvents(events, favorites) {
-    debugger;
     if (typeof(events.results) !== "undefined" && events.meta.count > 0) {
 
       for(var i=0, len=events.results.length; i<len; i++) {
@@ -142,7 +141,6 @@
   function removeFavorite(e) {
     e.preventDefault();
     var button = $(this)
-    debugger;
     var id = button.closest('li').data('id');
     var url = window.BASE_URL + "favorites/" + id;
 
