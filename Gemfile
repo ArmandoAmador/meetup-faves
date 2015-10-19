@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders', '~> 2.0'
 gem 'bower-rails', '~> 0.10.0'
 gem 'active_model_serializers'
+gem 'font-awesome-rails'
 
 group :development, :test do
   gem 'byebug'
@@ -28,5 +29,5 @@ group :development do
 end
 
 group :test do
-   gem 'shoulda-matchers', '~> 2.8.0'
+  gem 'shoulda-matchers', '~> 2.8.0'
 end

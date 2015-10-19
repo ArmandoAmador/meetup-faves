@@ -6,7 +6,7 @@
     months       = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], //Short-hand months for display.
     spinner_opts = { lines: 13, length: 20, width: 10, radius: 60, color: '#333', className: 'spinner' }; //Options for spin.js.
 
-  var showEvents = function(e) {
+  function showEvents(e) {
 
     if (e !== undefined) {
       e.preventDefault();
@@ -26,7 +26,7 @@
 
   };
 
-  var searchEvents = function (search) {
+  function searchEvents(search) {
     return $.ajax({
       url:"http://api.meetup.com/2/open_events/?callback=?",
       data: {
@@ -40,14 +40,15 @@
     });
   }
 
-  var getFavorites = function(){
+  function getFavorites(){
     return $.ajax({
       url:"http://localhost:3000/favorites",
       dataType:"json"
     });
   };
 
-  var showFavorites = function(e) {
+
+  function showFavorites(e) {
     if (e !== undefined) {
       e.preventDefault();
     }
@@ -57,7 +58,7 @@
     getFavorites().then(fetchEvents, ajaxError)
   };
 
-  var fetchEvents = function(favorites) {
+  function fetchEvents(favorites) {
     var event_ids = favorites.results.map(function(result){ return result.id })
 
     $.ajax({
@@ -73,20 +74,8 @@
     }, ajaxError);
   };
 
-  var renderEvents = function(events, favorites) {
-    var id_exist = function(data, id) {
-      var stuff
-      data.results.forEach(function(result){
-        if (result.id === id) {
-          stuff = true
-          return stuff;
-        }
-      });
-      return stuff;
-    };
-
-    var result;
-
+  function renderEvents(events, favorites) {
+    debugger;
     if (typeof(events.results) !== "undefined" && events.meta.count > 0) {
 
       for(var i=0, len=events.results.length; i<len; i++) {
@@ -94,32 +83,50 @@
         var date = new Date(e.time);
         e.month = months[date.getMonth()]
         e.date =  date.getDate();
-        result = id_exist(favorites, e.id);
-        if (result === true)
-          e.button = "favorite-remove"
-        else
-          e.button = "favorite-add"
       }
+
       $events.html(Mustache.render(template, events));
+      checkButtons(favorites)
 
     } else {
-
       $events.html('<p class="big bold">We couldn\'t find any matching events :(</p>');
-
     }
 
   };
 
-  var ajaxError = function() {
+  function checkButtons(favorites) {
+    var items = $('.item');
 
+    $.each(items, function(i, item){
+      var addButton = $(item).find('i[data-action=favorite-add]');
+      var removeButton = $(item).find('i[data-action=favorite-remove]');
+      var itemID = $(item).attr('data-id');
+      var savedItems = favorites.results
+      var isSaved = false;
+
+      $.each(savedItems, function(x, saveItem){
+        if(saveItem.id == itemID) {
+          isSaved = true;
+        }
+      });
+
+      if(isSaved && addButton) {
+        addButton.removeClass('item-add').addClass('item-remove').attr('data-action', 'favorite-remove')
+      } else {
+        removeButton.removeClass('item-remove').addClass('item-add').attr('data-action', 'favorite-add')
+      }
+    });
+  }
+
+  function ajaxError() {
     $events.html('<p class="big bold">Uh oh. Something went wrong here.</p>');
-
   };
 
-  var addFavorite = function(e) {
+  function addFavorite(e) {
     e.preventDefault();
+    var button = $(this)
     var url = "http://localhost:3000/favorites"
-    var id = $(this).closest('li').data('id');
+    var id = button.closest('li').data('id');
 
     var itemJson = {
       favorite: {
@@ -127,19 +134,23 @@
       }
     }
 
-    $.post(url, itemJson);
+    $.post(url, itemJson).then(function(){
+      button.removeClass('item-add').addClass('item-remove').attr('data-action', 'favorite-remove')
+    });
   };
 
-  var removeFavorite = function(e) {
+  function removeFavorite(e) {
     e.preventDefault();
+    var button = $(this)
     var url = "http://localhost:3000/favorites"
-    var id = $(this).closest('li').data('id');
+    var id = button.closest('li').data('id');
+
     $.ajax({
-        url: 'http://localhost:3000/favorites/' + id,
+        url: url + '/' + id,
         type: 'DELETE',
-    }).then(function(events){
-          renderEvents(events, favorites);
-    }, ajaxError);
+    }).done(function(){
+      button.removeClass('item-remove').addClass('item-add').attr('data-action', 'favorite-add')
+    });
   }
 
   var init = function() {
@@ -147,12 +158,11 @@
     template = $("#meetup-template").html();
     $events = $("#events");
     $topic = $("#topic");
-    $events.on('click', 'button[data-action=favorite-add]', addFavorite);
-    $events.on('click', 'button[data-action=favorite-remove]', removeFavorite);
+    $events.on('click', 'i[data-action=favorite-add]', addFavorite);
+    $events.on('click', 'i[data-action=favorite-remove]', removeFavorite);
     $("#search-button").on("click", showEvents);
     $("#get-favorites-button").on("click", showFavorites);
     showEvents();
-
   };
 
   $(init);

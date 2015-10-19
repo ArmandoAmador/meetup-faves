@@ -16,3 +16,23 @@ body {
   color:rgba(226, 55, 60, 1);
   font-weight:bold;
 }
+
+.favorite-icon {
+  font-size: 20px;
+}
+
+.item-add {
+  color: rgba(0, 0, 0, 0.1);
+  &:hover {
+    color: #FDF77B;
+  }
+}
+
+.item-remove {
+  color: #FDF77B;
+  &:hover {
+    color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+
