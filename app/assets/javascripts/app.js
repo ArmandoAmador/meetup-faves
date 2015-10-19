@@ -28,7 +28,7 @@
 
   function searchEvents(search) {
     return $.ajax({
-      url:"http://api.meetup.com/2/open_events/?callback=?",
+      url:"https://api.meetup.com/2/open_events/?callback=?",
       data: {
         zip:"10012",
         text: search,
@@ -42,7 +42,7 @@
 
   function getFavorites(){
     return $.ajax({
-      url:"http://localhost:3000/favorites",
+      url: window.BASE_URL + "favorites",
       dataType:"json"
     });
   };
@@ -62,7 +62,7 @@
     var event_ids = favorites.results.map(function(result){ return result.id })
 
     $.ajax({
-      url:"http://api.meetup.com/2/events/?callback=?",
+      url:"https://api.meetup.com/2/events/?callback=?",
       data: {
         event_id: event_ids.join(','),
         page:"10",
@@ -125,8 +125,8 @@
   function addFavorite(e) {
     e.preventDefault();
     var button = $(this)
-    var url = "http://localhost:3000/favorites"
     var id = button.closest('li').data('id');
+    var url = window.BASE_URL + "favorites"
 
     var itemJson = {
       favorite: {
@@ -142,11 +142,12 @@
   function removeFavorite(e) {
     e.preventDefault();
     var button = $(this)
-    var url = "http://localhost:3000/favorites"
+    debugger;
     var id = button.closest('li').data('id');
+    var url = window.BASE_URL + "favorites/" + id;
 
     $.ajax({
-        url: url + '/' + id,
+        url: url,
         type: 'DELETE',
     }).done(function(){
       button.removeClass('item-remove').addClass('item-add').attr('data-action', 'favorite-add')
